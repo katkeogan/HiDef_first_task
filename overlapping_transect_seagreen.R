@@ -41,22 +41,17 @@ flight1$transect <- as.factor(flight1$transect)
 flights[which(flights$Broad_Cate == c("Start of Transect", "End of Transect")),] # this finds those rows in the dataframe and removes them
 
 # find overlapping transects
+# will do this by looking for matching starting coordinates. 
 
+# Time variable outputs all rows as "1899/12/30", so can't really use it for anything. 
 
 
 # view data
+# split data by "transect" but not by "flight" yet. 
 ggplot(data = flights) +
-  geom_point(aes(x = Longitude, y = Latitude, colour = transect)) +
+  geom_point(aes(x = coords.x1, y = coords.x2, colour = transect)) +
   facet_wrap( ~ transect)
 
-# Find out which transects are overlapping.
-
-
-
-
-# tomorrow:
-# Time variable outputs all rows as "1899/12/30", so can't really use it for anything. 
-# clean dataset - remove no ids
-# figure out way to find overlapping transects
+# plot is weird. Looks like after the final transect the centroid of each grid is plotted, or something like that?
 
 
