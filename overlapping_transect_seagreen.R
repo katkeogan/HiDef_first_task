@@ -30,28 +30,16 @@ flights$transect[which(flights$Broad_Cate == "Start of Transect")] <- seq(1,leng
 flights <- flights %>% tidyr::fill(transect) # fill the remaining rows with the corresponding transect number. Could only get the fill function to work using a pipe.
 flights$transect <- as.factor(flights$transect)
 
-
-flight1$transect <- NA # new column for transect numbers
-flight1$transect[which(flight1$Broad_Cate == "Start of Transect")] <- seq(1,length(which(flight1$Broad_Cate == "Start of Transect")),1) # assign a unique number to each "Start of Transect" row.
-flight1 <- flight1 %>% tidyr::fill(transect) # fill the remaining rows with the corresponding transect number. Could only get the fill function to work using a pipe.
-flight1$transect <- as.factor(flight1$transect)
-
-
-# need to remove both start of transect and end of transect rows as they hold no data
-flights[which(flights$Broad_Cate == c("Start of Transect", "End of Transect")),] # this finds those rows in the dataframe and removes them
-
 # find overlapping transects
 # will do this by looking for matching starting coordinates. 
-
-# Time variable outputs all rows as "1899/12/30", so can't really use it for anything. 
-
 
 # view data
 # split data by "transect" but not by "flight" yet. 
 ggplot(data = flights) +
   geom_point(aes(x = coords.x1, y = coords.x2, colour = transect)) +
-  facet_wrap( ~ transect)
+  facet_wrap( ~ transect) # I just wanted to facet wrap the transects because plotting them all together showed up some odd structure to the points.
 
-# plot is weird. Looks like after the final transect the centroid of each grid is plotted, or something like that?
+# plot is weird. Looks like after the final transect the centroid of each grid is plotted, or something like that? I.e. "transects" 30 and 44!
+# Time variable outputs all rows as "1899/12/30", so can't really use it for anything. Makes it hard to check when the weird points were generated..
 
 
