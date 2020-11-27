@@ -11,18 +11,29 @@ library(raster)
 library(rgdal)
 library(ggplot2)
 library(tidyr)
+library(reshape2)
 
 # set work directory
-setwd("R:\\Consultancy\\HC00002 - Resources\\Grants Training Spreadsheets\\Zone85_M10_S01_20 Seagreen Phase 2&3 Overlap_DrK\\Shapefiles\\")
+setwd("R:\\Projects\\HP00000 - Projects\\HP00104 - Seagreen Phase 2 and 3\\500 - Data Processing\\2019 - Month 10 - Survey 01\\Density Estimates\\Output\\D01\\")
 
 # read in files: convert from shapefiles and convert to data frame at the same time
-flight1 <- as.data.frame(raster::shapefile("HiDef_SG_Zone85_M10_S01_D01_19_Observations_20200116.shp"))
-flight2 <- as.data.frame(raster::shapefile("HiDef_SG_Zone85_M10_S01_D02_19_Observations_20200116.shp"))
+flight1 <- as.data.frame(raster::shapefile("Zone85_M10_S01_D01_19_Output\\Zone85_M10_S01_D01_19_Output-Day1-CentCount.shp"))
+flight2 <- as.data.frame(raster::shapefile("Zone85_M10_S01_D02_19_Output\\Zone85_M10_S01_D02_19_Output-Day1-CentCount.shp"))
+
+# convert to long format for data exploration and plotting
+flight1_long <- melt(flight1, id.vars = c("transect", "coords.x1", "coords.x2"))
+flight2_long <- melt(flight2, id.vars = c("transect", "coords.x1", "coords.x2"))
+
+ggplot(data = flight1_long) +
+  geom_point(aes(x = coords.x1, y = coords.x2, colour = transect)) +
+  facet_wrap( ~ transect)
+
+
 
 # merge datasets
-flight1$Flight <- "F1"
-flight2$Flight <- "F2"
-flights <- rbind(flight1, flight2) # "flights" will be the main dataframe
+flight1_long$Flight <- "F1"
+flight2_long$Flight <- "F2"
+flights <- rbind(flight1_long, flight2_long) # "flights" will be the main dataframe
 
 # assign transect numbers to each transect
 flights$transect <- NA # new column for transect numbers
@@ -36,7 +47,7 @@ flights$transect <- as.factor(flights$transect)
 # view data
 # split data by "transect" but not by "flight" yet. 
 ggplot(data = flights) +
-  geom_point(aes(x = coords.x1, y = coords.x2, colour = transect)) +
+  geom_point(aes(x = coords.x1, y = coords.x2, colour = Flight)) 
   facet_wrap( ~ transect) # I just wanted to facet wrap the transects because plotting them all together showed up some odd structure to the points.
 
 # plot is weird. Looks like after the final transect the centroid of each grid is plotted, or something like that? I.e. "transects" 30 and 44!
