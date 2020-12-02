@@ -17,8 +17,7 @@ library(stringr) # alter character strings
 library(writexl) # write excel files
 
 # READ ME ####
-# The only line of code you will need to alter is line 23 called "file name"
-# if you get an error in writing the excel file at the end, make sure that there isn't already an excel file of that name in the folder
+# The only line of code you will need to alter is line 22 called "file name"
 
 file_name <- "Zone85_M10_S01_D01_C1_19.xlsx" # paste name of excel file inside the quotations e.g. "Zone85_M10_S01_D01_C1_19.xlsx"
 this_survey <- paste("Survey Data/",file_name,sep = "")
