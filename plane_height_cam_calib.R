@@ -3,30 +3,29 @@
 ### Kat Keogan - katharine.keogan@hidefsurveying.co.uk ###
 ##########################################################
 
-# Read me ####
-Instructions here
-# To add a new comments column I've had to leave a space after comments ("Comments ") as there is already a column named "Comments". Just FYI @Grant
-# Here tell the user which rows they'll need to choose their own file from/set the working directory etc. 
+# Always run this line first
+rm(list = ls(all = TRUE)) # clears anything previously saved so you can start from scratch. 
 
-
-# Run from here:
-rm(list = ls(all = TRUE)) # clears anything previously saved so you can start from scratch
-
+# If you haven't used this before, you'll need to install the following packages by running this line of code
 # install packages
 install.packages(c("readxl", "tibble", "stringr", "writexl"))
 
-# packages to load
+# load all of these packages
 library(readxl) # this will read excel files
 library(tibble) # to add columns
-library(stringr)
-library(writexl)
+library(stringr) # alter character strings
+library(writexl) # write excel files
+
+# READ ME ####
+# The only line of code you will need to alter is line 23 called "file name"
+# if you get an error in writing the excel file at the end, make sure that there isn't already an excel file of that name in the folder
+
+file_name <- "Zone85_M10_S01_D01_C1_19.xlsx" # paste name of excel file inside the quotations e.g. "Zone85_M10_S01_D01_C1_19.xlsx"
+this_survey <- paste("Survey Data/",file_name,sep = "")
 
 
 # Step 1 ####
 # Read in data from all sources
-
-this_survey <- "Survey Data/Zone85_M10_S01_D01_C1_19.xlsx"
-
 dataframe <- readxl::read_excel(this_survey) 
 calibration <- readxl::read_excel("GPS Search.xlsm", sheet = "Calibration")
 
@@ -89,8 +88,12 @@ for(i in 1:dim(dataframe_fly)[1]){
                 }
 
 
+# Step 6 ####
 # replace rows in main dataframe with the smaller dataframe that only included flying birds
 dataframe[dataframe$Behaviour %in% dataframe_fly$Behaviour,] <- dataframe_fly
 
+
+# Step 7 ####
+# write new excel file to output folder
 finished_survey_path <- stringr::str_replace(this_survey, "Survey Data", "Output Survey")
 writexl::write_xlsx(dataframe, finished_survey_path)
