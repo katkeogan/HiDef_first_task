@@ -55,7 +55,7 @@ raster::shapefile(flight2_overlap_sp, filename = "C:\\Users\\keoghank\\Documents
 raster::shapefile(transect2_overlap_sp, filename = "C:\\Users\\keoghank\\Documents\\Test analyses\\Bootstrapping_test\\Shapefiles\\Test_day1\\Zone85_M10_S01_D01_19_Output-Day2-Transect.shp", overwrite = TRUE)
 
 # Saving the shapefile has two issues, first of all Field names are abbreviated making things harder
-# second of all the .prj file is missing 
+# second of all the .prj file is missing, but this is ok 
 testflight <- as.data.frame(raster::shapefile("C:\\Users\\keoghank\\Documents\\Test analyses\\Bootstrapping_test\\Shapefiles\\Test_day1\\Zone85_M10_S01_D01_19_Output-Day1-CentCount.shp"))
 
 
